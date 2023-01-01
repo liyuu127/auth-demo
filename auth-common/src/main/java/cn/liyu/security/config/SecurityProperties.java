@@ -16,11 +16,15 @@
 package cn.liyu.security.config;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Jwt参数配置
  */
 @Data
+@Configuration
+@ConfigurationProperties(prefix = "jwt")
 public class SecurityProperties {
 
     /**

@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liyu.auth.mapper.SysUserMapper">
+  <resultMap id="BaseResultMap" type="cn.liyu.auth.entity.SysUser">
+    <!--@mbg.generated-->
+    <!--@Table sys_user-->
+    <id column="id" property="id" />
+    <result column="dept_id" property="deptId" />
+    <result column="username" property="username" />
+    <result column="nick_name" property="nickName" />
+    <result column="gender" property="gender" />
+    <result column="phone" property="phone" />
+    <result column="email" property="email" />
+    <result column="avatar_url" property="avatarUrl" />
+    <result column="password" property="password" />
+    <result column="enabled" property="enabled" />
+    <result column="last_login_time" property="lastLoginTime" />
+    <result column="create_by" property="createBy" />
+    <result column="create_time" property="createTime" />
+    <result column="update_by" property="updateBy" />
+    <result column="update_time" property="updateTime" />
+    <result column="deleted" property="deleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, dept_id, username, nick_name, gender, phone, email, avatar_url, `password`, enabled, 
+    last_login_time, create_by, create_time, update_by, update_time, deleted
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where id = #{id}
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysUser" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_user (dept_id, username, nick_name, gender, phone, email, avatar_url, 
+      `password`, enabled, last_login_time, create_by, create_time, update_by, 
+      update_time, deleted)
+    values (#{deptId}, #{username}, #{nickName}, #{gender}, #{phone}, #{email}, #{avatarUrl}, 
+      #{password}, #{enabled}, #{lastLoginTime}, #{createBy}, #{createTime}, #{updateBy}, 
+      #{updateTime}, #{deleted})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysUser" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="enabled != null">
+        enabled,
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deptId != null">
+        #{deptId},
+      </if>
+      <if test="username != null">
+        #{username},
+      </if>
+      <if test="nickName != null">
+        #{nickName},
+      </if>
+      <if test="gender != null">
+        #{gender},
+      </if>
+      <if test="phone != null">
+        #{phone},
+      </if>
+      <if test="email != null">
+        #{email},
+      </if>
+      <if test="avatarUrl != null">
+        #{avatarUrl},
+      </if>
+      <if test="password != null">
+        #{password},
+      </if>
+      <if test="enabled != null">
+        #{enabled},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime},
+      </if>
+      <if test="createBy != null">
+        #{createBy},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+      <if test="deleted != null">
+        #{deleted},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.liyu.auth.entity.SysUser">
+    <!--@mbg.generated-->
+    update sys_user
+    <set>
+      <if test="deptId != null">
+        dept_id = #{deptId},
+      </if>
+      <if test="username != null">
+        username = #{username},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName},
+      </if>
+      <if test="gender != null">
+        gender = #{gender},
+      </if>
+      <if test="phone != null">
+        phone = #{phone},
+      </if>
+      <if test="email != null">
+        email = #{email},
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url = #{avatarUrl},
+      </if>
+      <if test="password != null">
+        `password` = #{password},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled},
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time = #{lastLoginTime},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.liyu.auth.entity.SysUser">
+    <!--@mbg.generated-->
+    update sys_user
+    set dept_id = #{deptId},
+      username = #{username},
+      nick_name = #{nickName},
+      gender = #{gender},
+      phone = #{phone},
+      email = #{email},
+      avatar_url = #{avatarUrl},
+      `password` = #{password},
+      enabled = #{enabled},
+      last_login_time = #{lastLoginTime},
+      create_by = #{createBy},
+      create_time = #{createTime},
+      update_by = #{updateBy},
+      update_time = #{updateTime},
+      deleted = #{deleted}
+    where id = #{id}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_user
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="dept_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.deptId}
+        </foreach>
+      </trim>
+      <trim prefix="username = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.username}
+        </foreach>
+      </trim>
+      <trim prefix="nick_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.nickName}
+        </foreach>
+      </trim>
+      <trim prefix="gender = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.gender}
+        </foreach>
+      </trim>
+      <trim prefix="phone = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.phone}
+        </foreach>
+      </trim>
+      <trim prefix="email = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.email}
+        </foreach>
+      </trim>
+      <trim prefix="avatar_url = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.avatarUrl}
+        </foreach>
+      </trim>
+      <trim prefix="`password` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.password}
+        </foreach>
+      </trim>
+      <trim prefix="enabled = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.enabled}
+        </foreach>
+      </trim>
+      <trim prefix="last_login_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.lastLoginTime}
+        </foreach>
+      </trim>
+      <trim prefix="create_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.createBy}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.createTime}
+        </foreach>
+      </trim>
+      <trim prefix="update_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.updateBy}
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.updateTime}
+        </foreach>
+      </trim>
+      <trim prefix="deleted = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.deleted}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_user
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="dept_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.deptId != null">
+            when id = #{item.id} then #{item.deptId}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="username = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.username != null">
+            when id = #{item.id} then #{item.username}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="nick_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.nickName != null">
+            when id = #{item.id} then #{item.nickName}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="gender = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.gender != null">
+            when id = #{item.id} then #{item.gender}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="phone = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.phone != null">
+            when id = #{item.id} then #{item.phone}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="email = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.email != null">
+            when id = #{item.id} then #{item.email}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="avatar_url = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.avatarUrl != null">
+            when id = #{item.id} then #{item.avatarUrl}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`password` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.password != null">
+            when id = #{item.id} then #{item.password}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="enabled = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.enabled != null">
+            when id = #{item.id} then #{item.enabled}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="last_login_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.lastLoginTime != null">
+            when id = #{item.id} then #{item.lastLoginTime}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createBy != null">
+            when id = #{item.id} then #{item.createBy}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createTime != null">
+            when id = #{item.id} then #{item.createTime}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_by = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updateBy != null">
+            when id = #{item.id} then #{item.updateBy}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updateTime != null">
+            when id = #{item.id} then #{item.updateTime}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="deleted = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.deleted != null">
+            when id = #{item.id} then #{item.deleted}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_user
+    (dept_id, username, nick_name, gender, phone, email, avatar_url, `password`, enabled, 
+      last_login_time, create_by, create_time, update_by, update_time, deleted)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.deptId}, #{item.username}, #{item.nickName}, #{item.gender}, #{item.phone}, 
+        #{item.email}, #{item.avatarUrl}, #{item.password}, #{item.enabled}, #{item.lastLoginTime}, 
+        #{item.createBy}, #{item.createTime}, #{item.updateBy}, #{item.updateTime}, #{item.deleted}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysUser" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      dept_id,
+      username,
+      nick_name,
+      gender,
+      phone,
+      email,
+      avatar_url,
+      `password`,
+      enabled,
+      last_login_time,
+      create_by,
+      create_time,
+      update_by,
+      update_time,
+      deleted,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      #{deptId},
+      #{username},
+      #{nickName},
+      #{gender},
+      #{phone},
+      #{email},
+      #{avatarUrl},
+      #{password},
+      #{enabled},
+      #{lastLoginTime},
+      #{createBy},
+      #{createTime},
+      #{updateBy},
+      #{updateTime},
+      #{deleted},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id},
+      </if>
+      dept_id = #{deptId},
+      username = #{username},
+      nick_name = #{nickName},
+      gender = #{gender},
+      phone = #{phone},
+      email = #{email},
+      avatar_url = #{avatarUrl},
+      `password` = #{password},
+      enabled = #{enabled},
+      last_login_time = #{lastLoginTime},
+      create_by = #{createBy},
+      create_time = #{createTime},
+      update_by = #{updateBy},
+      update_time = #{updateTime},
+      deleted = #{deleted},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysUser" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="deptId != null">
+        dept_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="enabled != null">
+        enabled,
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="deptId != null">
+        #{deptId},
+      </if>
+      <if test="username != null">
+        #{username},
+      </if>
+      <if test="nickName != null">
+        #{nickName},
+      </if>
+      <if test="gender != null">
+        #{gender},
+      </if>
+      <if test="phone != null">
+        #{phone},
+      </if>
+      <if test="email != null">
+        #{email},
+      </if>
+      <if test="avatarUrl != null">
+        #{avatarUrl},
+      </if>
+      <if test="password != null">
+        #{password},
+      </if>
+      <if test="enabled != null">
+        #{enabled},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime},
+      </if>
+      <if test="createBy != null">
+        #{createBy},
+      </if>
+      <if test="createTime != null">
+        #{createTime},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime},
+      </if>
+      <if test="deleted != null">
+        #{deleted},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id},
+      </if>
+      <if test="deptId != null">
+        dept_id = #{deptId},
+      </if>
+      <if test="username != null">
+        username = #{username},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName},
+      </if>
+      <if test="gender != null">
+        gender = #{gender},
+      </if>
+      <if test="phone != null">
+        phone = #{phone},
+      </if>
+      <if test="email != null">
+        email = #{email},
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url = #{avatarUrl},
+      </if>
+      <if test="password != null">
+        `password` = #{password},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled},
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time = #{lastLoginTime},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="getOneByUsername" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_user
+    <where>
+      and username = #{username}
+      and deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
+    </where>
+    </select>
+
+  <select id="selectByLowerUsernameOrPhone" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from sys_user as su
+    <where>
+      <if test="phone != null and phone != ''">
+        and (su.phone = #{phone})
+      </if>
+      <if test="username != null and username != ''">
+        or su.username = #{username}
+      </if>
+      and deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
+    </where>
+
+  </select>
+</mapper>

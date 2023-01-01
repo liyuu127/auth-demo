@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liyu.auth.mapper.SysDeptMapper">
+    <resultMap id="BaseResultMap" type="cn.liyu.auth.entity.SysDept">
+        <!--@mbg.generated-->
+        <!--@Table sys_dept-->
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="pid" property="pid"/>
+        <result column="sort" property="sort"/>
+        <result column="path" property="path"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id,
+        `name`,
+        `type`,
+        pid,
+        sort,
+        `path`,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept
+        where id = #{id}
+    </select>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysDept"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into sys_dept (`name`, `type`, pid, sort, `path`, create_by, create_time, update_by,
+                              update_time, deleted)
+        values (#{name}, #{type}, #{pid}, #{sort}, #{path}, #{createBy}, #{createTime}, #{updateBy},
+                #{updateTime}, #{deleted})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysDept"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into sys_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="path != null">
+                `path`,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="pid != null">
+                #{pid},
+            </if>
+            <if test="sort != null">
+                #{sort},
+            </if>
+            <if test="path != null">
+                #{path},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="deleted != null">
+                #{deleted},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.liyu.auth.entity.SysDept">
+        <!--@mbg.generated-->
+        update sys_dept
+        <set>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="type != null">
+                `type` = #{type},
+            </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="path != null">
+                `path` = #{path},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.liyu.auth.entity.SysDept">
+        <!--@mbg.generated-->
+        update sys_dept
+        set `name`      = #{name},
+            `type`      = #{type},
+            pid         = #{pid},
+            sort        = #{sort},
+            `path`      = #{path},
+            create_by   = #{createBy},
+            create_time = #{createTime},
+            update_by   = #{updateBy},
+            update_time = #{updateTime},
+            deleted     = #{deleted}
+        where id = #{id}
+    </update>
+    <update id="updateBatch" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update sys_dept
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="`name` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.name}
+                </foreach>
+            </trim>
+            <trim prefix="`type` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.type}
+                </foreach>
+            </trim>
+            <trim prefix="pid = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.pid}
+                </foreach>
+            </trim>
+            <trim prefix="sort = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.sort}
+                </foreach>
+            </trim>
+            <trim prefix="`path` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.path}
+                </foreach>
+            </trim>
+            <trim prefix="create_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.createBy}
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.createTime}
+                </foreach>
+            </trim>
+            <trim prefix="update_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.updateBy}
+                </foreach>
+            </trim>
+            <trim prefix="update_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.updateTime}
+                </foreach>
+            </trim>
+            <trim prefix="deleted = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.deleted}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id}
+        </foreach>
+    </update>
+    <update id="updateBatchSelective" parameterType="java.util.List">
+        <!--@mbg.generated-->
+        update sys_dept
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="`name` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.name != null">
+                        when id = #{item.id} then #{item.name}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="`type` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.type != null">
+                        when id = #{item.id} then #{item.type}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="pid = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.pid != null">
+                        when id = #{item.id} then #{item.pid}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="sort = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.sort != null">
+                        when id = #{item.id} then #{item.sort}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="`path` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.path != null">
+                        when id = #{item.id} then #{item.path}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="create_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.createBy != null">
+                        when id = #{item.id} then #{item.createBy}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.createTime != null">
+                        when id = #{item.id} then #{item.createTime}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="update_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.updateBy != null">
+                        when id = #{item.id} then #{item.updateBy}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="update_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.updateTime != null">
+                        when id = #{item.id} then #{item.updateTime}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="deleted = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.deleted != null">
+                        when id = #{item.id} then #{item.deleted}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id}
+        </foreach>
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into sys_dept
+        (`name`, `type`, pid, sort, `path`, create_by, create_time, update_by, update_time,
+         deleted)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name}, #{item.type}, #{item.pid}, #{item.sort}, #{item.path}, #{item.createBy},
+             #{item.createTime}, #{item.updateBy}, #{item.updateTime}, #{item.deleted})
+        </foreach>
+    </insert>
+    <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysDept"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into sys_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            `name`,
+            `type`,
+            pid,
+            sort,
+            `path`,
+            create_by,
+            create_time,
+            update_by,
+            update_time,
+            deleted,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            #{name},
+            #{type},
+            #{pid},
+            #{sort},
+            #{path},
+            #{createBy},
+            #{createTime},
+            #{updateBy},
+            #{updateTime},
+            #{deleted},
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id},
+            </if>
+            `name`      = #{name},
+            `type`      = #{type},
+            pid         = #{pid},
+            sort        = #{sort},
+            `path`      = #{path},
+            create_by   = #{createBy},
+            create_time = #{createTime},
+            update_by   = #{updateBy},
+            update_time = #{updateTime},
+            deleted     = #{deleted},
+        </trim>
+    </insert>
+    <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysDept"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into sys_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="pid != null">
+                pid,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="path != null">
+                `path`,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="pid != null">
+                #{pid},
+            </if>
+            <if test="sort != null">
+                #{sort},
+            </if>
+            <if test="path != null">
+                #{path},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="deleted != null">
+                #{deleted},
+            </if>
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="type != null">
+                `type` = #{type},
+            </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="path != null">
+                `path` = #{path},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectChildrenList" resultType="cn.liyu.auth.entity.SysDept">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept
+        <where>
+            and path like concat('%_', #{sptId}, '_%')
+            and deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
+        </where>
+    </select>
+
+    <select id="getSelfByUserId" resultType="cn.liyu.auth.entity.SysDept">
+        select
+        sd.id as id,
+        sd.name as name,
+        sd.type as type,
+        sd.pid as pid,
+        sd.sort as sort,
+        sd.path as path,
+        sd.create_by as createBy,
+        sd.create_time as createTime,
+        sd.update_by as updateBy,
+        sd.update_time as updateTime,
+        sd.deleted as deleted
+        from sys_dept as sd
+                 left join sys_user as su on sd.id = su.dept_id
+        <where>
+            and su.id = #{userId}
+            and sd.deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
+        </where>
+    </select>
+
+    <select id="selectByIdList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept as sd
+        <where>
+            <if test="list != null and list.size() != 0">
+                and sd.id in
+                <foreach collection="list" close=")" item="item" open="(" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            and sd.deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
+        </where>
+
+    </select>
+</mapper>

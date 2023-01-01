@@ -18,11 +18,14 @@ package cn.liyu.security.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static cn.liyu.security.constant.SecurityConstant.USER_ENABLE_TRUE;
 
 /**
  * 授权用户信息
@@ -33,7 +36,7 @@ public class JwtUser implements UserDetails {
 
     private final UserLogin user;
 
-    private final List<Long> dataScopes;
+    private final Set<Integer> dataScopes;
 
     private final List<Authority> authorities;
 
@@ -74,6 +77,6 @@ public class JwtUser implements UserDetails {
     @Override
     @JSONField(serialize = false)
     public boolean isEnabled() {
-        return user.getEnabled();
+        return ObjectUtils.equals(USER_ENABLE_TRUE, user.getEnabled());
     }
 }

@@ -27,7 +27,6 @@ import java.lang.annotation.*;
  * methods.
  * 支持匿名访问 PostMapping
  *
- * @author liaojinlong
  * @see AnonymousGetMapping
  * @see AnonymousPostMapping
  * @see AnonymousPutMapping

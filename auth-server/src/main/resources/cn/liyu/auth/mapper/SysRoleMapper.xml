@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liyu.auth.mapper.SysRoleMapper">
+    <resultMap id="BaseResultMap" type="cn.liyu.auth.entity.SysRole">
+        <!--@Table sys_role-->
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="data_scope" property="dataScope"/>
+        <result column="description" property="description"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,
+        `name`,
+        data_scope,
+        description,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role
+        where id = #{id}
+    </select>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysRole"
+            useGeneratedKeys="true">
+        insert into sys_role (`name`, data_scope, description, create_by, create_time, update_by,
+                              update_time, deleted)
+        values (#{name}, #{dataScope}, #{description}, #{createBy}, #{createTime}, #{updateBy},
+                #{updateTime}, #{deleted})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysRole"
+            useGeneratedKeys="true">
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="dataScope != null">
+                data_scope,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="dataScope != null">
+                #{dataScope},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="deleted != null">
+                #{deleted},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.liyu.auth.entity.SysRole">
+        update sys_role
+        <set>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="dataScope != null">
+                data_scope = #{dataScope},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.liyu.auth.entity.SysRole">
+        update sys_role
+        set `name`      = #{name},
+            data_scope  = #{dataScope},
+            description = #{description},
+            create_by   = #{createBy},
+            create_time = #{createTime},
+            update_by   = #{updateBy},
+            update_time = #{updateTime},
+            deleted     = #{deleted}
+        where id = #{id}
+    </update>
+    <update id="updateBatch" parameterType="java.util.List">
+        update sys_role
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="`name` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.name}
+                </foreach>
+            </trim>
+            <trim prefix="data_scope = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.dataScope}
+                </foreach>
+            </trim>
+            <trim prefix="description = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.description}
+                </foreach>
+            </trim>
+            <trim prefix="create_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.createBy}
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.createTime}
+                </foreach>
+            </trim>
+            <trim prefix="update_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.updateBy}
+                </foreach>
+            </trim>
+            <trim prefix="update_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.updateTime}
+                </foreach>
+            </trim>
+            <trim prefix="deleted = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    when id = #{item.id} then #{item.deleted}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id}
+        </foreach>
+    </update>
+    <update id="updateBatchSelective" parameterType="java.util.List">
+        update sys_role
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="`name` = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.name != null">
+                        when id = #{item.id} then #{item.name}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="data_scope = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.dataScope != null">
+                        when id = #{item.id} then #{item.dataScope}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="description = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.description != null">
+                        when id = #{item.id} then #{item.description}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="create_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.createBy != null">
+                        when id = #{item.id} then #{item.createBy}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="create_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.createTime != null">
+                        when id = #{item.id} then #{item.createTime}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="update_by = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.updateBy != null">
+                        when id = #{item.id} then #{item.updateBy}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="update_time = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.updateTime != null">
+                        when id = #{item.id} then #{item.updateTime}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="deleted = case" suffix="end,">
+                <foreach collection="list" index="index" item="item">
+                    <if test="item.deleted != null">
+                        when id = #{item.id} then #{item.deleted}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id}
+        </foreach>
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        insert into sys_role
+        (`name`, data_scope, description, create_by, create_time, update_by, update_time,
+         deleted)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name}, #{item.dataScope}, #{item.description}, #{item.createBy}, #{item.createTime},
+             #{item.updateBy}, #{item.updateTime}, #{item.deleted})
+        </foreach>
+    </insert>
+    <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysRole"
+            useGeneratedKeys="true">
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            `name`,
+            data_scope,
+            description,
+            create_by,
+            create_time,
+            update_by,
+            update_time,
+            deleted,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            #{name},
+            #{dataScope},
+            #{description},
+            #{createBy},
+            #{createTime},
+            #{updateBy},
+            #{updateTime},
+            #{deleted},
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id},
+            </if>
+            `name`      = #{name},
+            data_scope  = #{dataScope},
+            description = #{description},
+            create_by   = #{createBy},
+            create_time = #{createTime},
+            update_by   = #{updateBy},
+            update_time = #{updateTime},
+            deleted     = #{deleted},
+        </trim>
+    </insert>
+    <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="cn.liyu.auth.entity.SysRole"
+            useGeneratedKeys="true">
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="dataScope != null">
+                data_scope,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="dataScope != null">
+                #{dataScope},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="createBy != null">
+                #{createBy},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="deleted != null">
+                #{deleted},
+            </if>
+        </trim>
+        on duplicate key update
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id = #{id},
+            </if>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="dataScope != null">
+                data_scope = #{dataScope},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getUserRoleList" resultMap="BaseResultMap">
+        select sr.id          as id,
+               sr.name        as name,
+               sr.data_scope  as dataScope,
+               sr.description as description,
+               sr.create_by   as createBy,
+               sr.create_time as createTime,
+               sr.update_by   as updateBy,
+               sr.update_time as updateTime
+        from sys_role as sr
+                 left join sys_user_role as sur on sur.role_id = sr.id
+        <where>
+            and sur.user_id = #{userId}
+                  and sr.deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
+        </where>
+    </select>
+
+    <select id="selectByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role
+        <where>
+            and name = #{name}
+                  and deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
+        </where>
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role
+        <where>
+            <if test="nameL != null and nameL != ''">
+                and name like concat('%', #{nameL}, '%')
+            </if>
+            and deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectUserInRole" resultType="cn.liyu.auth.entity.SysUser">
+        select
+        su.id as id,
+        su.dept_id as deptId,
+        su.username as username,
+        su.nick_name as nickName,
+        su.gender as gender,
+        su.phone as phone,
+        su.email as email,
+        su.avatar_url as avatarUrl,
+        su.enabled as enabled,
+        su.last_login_time as lastLoginTime,
+        su.create_by as createBy,
+        su.create_time as createTime,
+        su.update_by as updateBy,
+        su.update_time as updateTime
+        from sys_user_role as sur
+                 left join sys_user as su on su.id = sur.user_id
+        <where>
+            <if test="roleId != null">
+                and sur.role_id = #{roleId}
+            </if>
+        </where>
+    </select>
+</mapper>

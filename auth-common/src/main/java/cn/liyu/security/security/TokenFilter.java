@@ -1,88 +1,76 @@
-/*
- *  Copyright 2019-2020 Zheng Jie
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
 package cn.liyu.security.security;
 
+import cn.liyu.security.model.JwtUser;
 import cn.liyu.security.model.OnlineUser;
-import cn.liyu.security.utils.RedisUtils;
+import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
 import static cn.liyu.security.constant.SecurityConstant.*;
 
-/**
- * @author /
- */
-public class TokenFilter extends GenericFilterBean {
+
+public class TokenFilter extends OncePerRequestFilter {
     private static final Logger log = LoggerFactory.getLogger(TokenFilter.class);
 
 
     private final TokenProvider tokenProvider;
-    private final RedisUtils redisUtils;
-    private final UserCacheManager userCacheManager;
+    private final StringRedisTemplate stringRedisTemplate;
 
     /**
-     * @param tokenProvider    Token
-     * @param userCacheManager 用户缓存工具
+     * @param tokenProvider       Token
+     * @param stringRedisTemplate 缓存
      */
-    public TokenFilter(TokenProvider tokenProvider, RedisUtils redisUtils, UserCacheManager userCacheManager) {
-        this.redisUtils = redisUtils;
+    public TokenFilter(TokenProvider tokenProvider, StringRedisTemplate stringRedisTemplate) {
         this.tokenProvider = tokenProvider;
-        this.userCacheManager = userCacheManager;
+        this.stringRedisTemplate = stringRedisTemplate;
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-            throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        String token = resolveToken(httpServletRequest);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        String token = resolveToken(request);
         // 对于 Token 为空的不需要去查 Redis
         if (StringUtils.isNotBlank(token)) {
-            OnlineUser onlineUser = null;
-            boolean cleanUserCache = false;
+            JwtUser jwtUser = null;
+            String jwt = null;
             try {
-                onlineUser = (OnlineUser) redisUtils.get(ONLINE_KEY + token);
+                jwt = stringRedisTemplate.opsForValue().get(ONLINE_TOKEN_KEY + token);
+                String s = stringRedisTemplate.opsForValue().get(ONLINE_USER_KEY + token);
+                if (StringUtils.isNotBlank(s)) {
+                    jwtUser = JSON.parseObject(s, JwtUser.class);
+                }
             } catch (ExpiredJwtException e) {
                 log.error(e.getMessage());
-                cleanUserCache = true;
-            } finally {
-                if (cleanUserCache || Objects.isNull(onlineUser)) {
-                    userCacheManager.cleanUserCache(String.valueOf(tokenProvider.getClaims(token).get(TokenProvider.AUTHORITIES_KEY)));
-                }
+                stringRedisTemplate.delete(ONLINE_TOKEN_KEY + token);
+                stringRedisTemplate.delete(ONLINE_USER_KEY + token);
             }
-            if (onlineUser != null && StringUtils.isNotBlank(token)) {
-                Authentication authentication = tokenProvider.getAuthentication(token);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            if (jwtUser != null && jwt != null) {
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(jwtUser, null, jwtUser.getAuthorities());
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 // Token 续期
-                tokenProvider.checkRenewal(token);
+                tokenProvider.checkRenewal(jwt);
             }
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+        chain.doFilter(request, response);
     }
 
     /**

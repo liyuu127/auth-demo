@@ -25,10 +25,8 @@ import java.lang.annotation.*;
 /**
  * Annotation for mapping HTTP {@code GET} requests onto specific handler
  * methods.
- * <p>
  * 支持匿名访问   GetMapping
  *
- * @author liaojinlong
  * @see RequestMapping
  */
 @AnonymousAccess

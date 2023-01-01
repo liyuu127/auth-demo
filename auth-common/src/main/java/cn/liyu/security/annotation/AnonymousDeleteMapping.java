@@ -27,7 +27,6 @@ import java.lang.annotation.*;
  * methods.
  * 支持匿名访问  DeleteMapping
  *
- * @author liaojinlong
  * @see AnonymousGetMapping
  * @see AnonymousPostMapping
  * @see AnonymousPutMapping

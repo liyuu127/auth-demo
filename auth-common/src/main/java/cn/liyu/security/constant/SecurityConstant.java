@@ -6,9 +6,10 @@ public class SecurityConstant {
      */
     public final static String HEADER = "Authorization";
     /**
-     * 在线用户 key，根据 key 查询 redis 中在线用户的数据
+     * 在线用户 key，根据 token 查询 jwtToken
      */
-    public final static String ONLINE_KEY = "online-token-";
+    public final static String ONLINE_TOKEN_KEY = "online:token:";
+    public final static String ONLINE_USER_KEY = "online:user:";
     /**
      * 验证码 key
      */
@@ -18,6 +19,17 @@ public class SecurityConstant {
      */
     public final static String TOKEN_TYPE = "Bearer ";
 
-    public static final String USER_CACHE_KEY = "USER-LOGIN-DATA";
+    public static final String USER_CACHE_KEY = "user:cache";
+
+    /**
+     * 图片验证码
+     */
+    public static final String USER_LOGIN_CAPTCHA_KEY = "captcha:user:login:";
+
+    /**
+     * 是否启用:0禁用,1启用
+     */
+    public static final byte USER_ENABLE_FALSE = 0;
+    public static final byte USER_ENABLE_TRUE = 1;
 
 }

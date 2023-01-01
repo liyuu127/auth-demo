@@ -2,37 +2,82 @@ package cn.liyu.security.model;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
 public class UserLogin {
 
-    private Long id;
+    /**
+     * 用户表主键
+     */
+    private Integer id;
 
+    private Integer deptId;
 
-    private Long deptId;
-
+    /**
+     * 用户名
+     */
     private String username;
 
+    /**
+     * 昵称
+     */
     private String nickName;
 
-    private String email;
+    /**
+     * 性别:0女性,1男性
+     */
+    private Byte gender;
 
+    /**
+     * 手机号码
+     */
     private String phone;
 
-    private String gender;
+    /**
+     * 邮箱
+     */
+    private String email;
 
-    private String avatarName;
+    /**
+     * 头像网址
+     */
+    private String avatarUrl;
 
-    private String avatarPath;
-
+    /**
+     * 密码
+     */
     private String password;
 
-    private Boolean enabled;
+    /**
+     * 是否启用:0禁用,1启用
+     */
+    private Byte enabled;
 
-    private Boolean isAdmin = false;
+    /**
+     * 上次登录时间
+     */
+    private Date lastLoginTime;
 
-    private Date pwdResetTime;
+    /**
+     * 创建者
+     */
+    private String createBy;
 
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
+    /**
+     * 更新者
+     */
+    private String updateBy;
+
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
 
 }

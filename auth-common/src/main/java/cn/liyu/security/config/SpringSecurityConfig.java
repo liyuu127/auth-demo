@@ -17,12 +17,15 @@ package cn.liyu.security.config;
 
 import cn.liyu.security.annotation.AnonymousAccess;
 import cn.liyu.security.constant.RequestMethodEnum;
-import cn.liyu.security.security.*;
-import cn.liyu.security.utils.RedisUtils;
+import cn.liyu.security.security.JwtAccessDeniedHandler;
+import cn.liyu.security.security.JwtAuthenticationEntryPoint;
+import cn.liyu.security.security.TokenConfigurer;
+import cn.liyu.security.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,9 +44,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import java.util.*;
 
-/**
- * @author Zheng Jie
- */
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -55,9 +56,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationEntryPoint authenticationErrorHandler;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final ApplicationContext applicationContext;
-    private final SecurityProperties properties;
-    private final RedisUtils redisUtils;
-    private final UserCacheManager userCacheManager;
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Bean
     GrantedAuthorityDefaults grantedAuthorityDefaults() {
@@ -137,7 +136,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private TokenConfigurer securityConfigurerAdapter() {
-        return new TokenConfigurer(tokenProvider, redisUtils, userCacheManager);
+        return new TokenConfigurer(tokenProvider, stringRedisTemplate);
     }
 
     private Map<String, Set<String>> getAnonymousUrl(Map<RequestMappingInfo, HandlerMethod> handlerMethodMap) {

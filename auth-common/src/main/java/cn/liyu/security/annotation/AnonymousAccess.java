@@ -18,7 +18,6 @@ package cn.liyu.security.annotation;
 import java.lang.annotation.*;
 
 /**
- * @author jacky
  *  用于标记匿名访问方法
  */
 @Inherited

@@ -8,11 +8,16 @@ import javax.validation.constraints.NotBlank;
 public class AuthUserForm {
     @NotBlank
     private String username;
-
     @NotBlank
     private String password;
-
+    /**
+     * 验证码结果
+     */
+//    @NotBlank
     private String code;
-
-    private String uuid = "";
+    /**
+     * 验证码id
+     */
+//    @NotBlank
+    private String captchaId;
 }
