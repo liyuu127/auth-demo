@@ -11,6 +11,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -118,5 +119,19 @@ public class TokenProvider implements InitializingBean {
             return requestHeader.substring(7);
         }
         return null;
+    }
+
+    public void removeToken(HttpServletRequest request) {
+        String token = getToken(request);
+        if (StringUtils.isBlank(token)){
+            return;
+        }
+        String s = stringRedisTemplate.opsForValue().get(ONLINE_USER_KEY + token);
+        if (s != null) {
+            JwtUser jwtUser = JSON.parseObject(s, JwtUser.class);
+            stringRedisTemplate.delete(ONLINE_USER_TOKEN_KEY + jwtUser.getUsername() + ":" + token);
+            stringRedisTemplate.delete(ONLINE_USER_KEY + token);
+        }
+
     }
 }

@@ -51,4 +51,6 @@ public interface SysRoleMenuMapper {
     int updateBatchSelective(List<SysRoleMenu> list);
 
     int batchInsert(@Param("list") List<SysRoleMenu> list);
+
+    void deleteByRoleId(@Param("roleId") Integer roleId);
 }

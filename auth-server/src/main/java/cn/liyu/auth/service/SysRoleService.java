@@ -49,17 +49,8 @@ public class SysRoleService {
         SysRole role = RoleConvert.INSTANCE.formToEntity(roleForm);
         roleMapper.insertSelective(role);
 
-        if (!roleForm.getMenuIdList().isEmpty()){
-            Integer rId = role.getId();
-            List<SysRoleMenu> roleMenus = roleForm.getMenuIdList()
-                    .stream()
-                    .map(id -> {
-                        SysRoleMenu sm = new SysRoleMenu();
-                        sm.setRoleId(rId);
-                        sm.setMenuId(id);
-                        return sm;
-                    }).collect(Collectors.toList());
-            roleMenuMapper.batchInsert(roleMenus);
+        if (roleForm.getMenuIdList() != null && !roleForm.getMenuIdList().isEmpty()) {
+            bathSaveRoleMenu(roleForm, role);
         }
     }
 
@@ -85,14 +76,34 @@ public class SysRoleService {
         return roleMapper.selectByPrimaryKey(id);
     }
 
+    @Transactional
     public void updateRole(RoleForm roleForm) {
         checkRoleUniqueField(roleForm);
         SysRole role = RoleConvert.INSTANCE.formToEntity(roleForm);
         role.setUpdateBy(SecurityUtils.getCurrentUsername());
         role.setUpdateTime(LocalDateTime.now());
         roleMapper.updateByPrimaryKeySelective(role);
+
+        if (roleForm.getMenuIdList() != null && !roleForm.getMenuIdList().isEmpty()) {
+            roleMenuMapper.deleteByRoleId(role.getId());
+            bathSaveRoleMenu(roleForm, role);
+        }
     }
 
+    private void bathSaveRoleMenu(RoleForm roleForm, SysRole role) {
+        Integer rId = role.getId();
+        List<SysRoleMenu> roleMenus = roleForm.getMenuIdList()
+                .stream()
+                .map(id -> {
+                    SysRoleMenu sm = new SysRoleMenu();
+                    sm.setRoleId(rId);
+                    sm.setMenuId(id);
+                    return sm;
+                }).collect(Collectors.toList());
+        roleMenuMapper.batchInsert(roleMenus);
+    }
+
+    @Transactional
     public void deleteRole(RoleForm roleForm) {
 
         List<SysUser> sysUsers = roleMapper.selectUserInRole(roleForm.getId());
@@ -105,5 +116,6 @@ public class SysRoleService {
         role.setUpdateBy(SecurityUtils.getCurrentUsername());
         role.setUpdateTime(LocalDateTime.now());
         roleMapper.updateByPrimaryKeySelective(role);
+        roleMenuMapper.deleteByRoleId(role.getId());
     }
 }

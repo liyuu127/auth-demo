@@ -1,5 +1,6 @@
 package cn.liyu.auth.service;
 
+import ch.qos.logback.core.helpers.CyclicBuffer;
 import cn.liyu.auth.constant.AuthStubInfo;
 import cn.liyu.auth.constant.DataScopeEnum;
 import cn.liyu.auth.entity.SysDept;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static cn.liyu.auth.constant.AuthConstant.NODE_PATH_ROOT_ID;
 import static cn.liyu.auth.constant.AuthConstant.NODE_PATH_SEP;
 import static cn.liyu.auth.constant.AuthStubInfo.DEPT_NOT_FOUND;
 import static cn.liyu.auth.constant.AuthStubInfo.PARENT_NODE_NOT_FOUND;
@@ -75,10 +77,14 @@ public class SysDeptService {
     public List<SysDept> getSelfAndChildrenList(Integer sptId) {
         SysDept dept = getSysDept(sptId);
         List<SysDept> deptList = new ArrayList<>();
-        List<SysDept> childrenList = deptMapper.selectChildrenList(sptId);
+        List<SysDept> childrenList = getChildrenList(sptId);
         deptList.add(dept);
         deptList.addAll(childrenList);
         return deptList;
+    }
+
+    private List<SysDept> getChildrenList(Integer sptId) {
+        return deptMapper.selectChildrenList(sptId);
     }
 
     public List<SysDept> getSelfAndSuperiorList(Integer sptId) {
@@ -191,14 +197,68 @@ public class SysDeptService {
 
 
     public List<SysDept> queryDeptList(String nameL) {
-        return null;
+        return deptMapper.selectList(nameL);
     }
 
     public void updateDept(DeptForm deptForm) {
+        Integer id = deptForm.getId();
+        //更新当前节点及子节点信息
+        SysDept sysDept = getSysDept(id);
+        //查询新的父节点信息 比较收是否有做节点变动
+        if (deptForm.getPid() == null || Objects.equals(sysDept.getPid(), deptForm.getPid())) {
+            SysDept dept = DeptConvert.INSTANCE.formToEntity(deptForm);
+            deptMapper.updateByPrimaryKeySelective(dept);
+            return;
+        }
+        //更新后前缀
+        String path = "";
+        if (NODE_PATH_ROOT_ID == deptForm.getPid()) {
+            //新节点设置为了顶级节点
+        } else {
+            //获取新节点的前缀
+            SysDept deptParent = getSysDept(deptForm.getPid());
+            path = getPathFromParent(deptParent.getPath(), deptParent.getId());
+        }
+        //之前父级前缀
+        String prePath = "";
+        if (StringUtils.isNotBlank(sysDept.getPath())) {
+            prePath = sysDept.getPath();
+        }
+        SysDept dept = DeptConvert.INSTANCE.formToEntity(deptForm);
+        dept.setPath(StringUtils.isNotBlank(path) ? path : null);
 
+        //获取所有子节点
+        List<SysDept> childrenList = getChildrenList(id);
+        if (!childrenList.isEmpty()) {
+            for (SysDept c : childrenList) {
+                //除去旧的前缀
+                String children = c.getPath();
+                int i = Math.max(prePath.length() - 1, 0);
+                int j = path.length() == 0 ? 0 : path.length() - 1;
+                children = path.substring(0, j) + children.substring(i);
+                c.setPath(children);
+            }
+        }
+        if (!childrenList.isEmpty()) {
+            childrenList.add(dept);
+            deptMapper.updateBatchSelective(childrenList);
+        }else {
+            deptMapper.updateByPrimaryKeySelective(dept);
+        }
+    }
+
+    private String getPathFromParent(String deptParentPath, Integer deptParentId) {
+        String path;
+        if (deptParentPath.endsWith(NODE_PATH_SEP)) {
+            path = deptParentPath + deptParentId + NODE_PATH_SEP;
+        } else {
+            path = NODE_PATH_SEP + deptParentId + NODE_PATH_SEP;
+        }
+        return path;
     }
 
     public void deleteDept(DeptForm deptForm) {
+        //todo 有子节点 不能删除
 
     }
 
@@ -211,4 +271,14 @@ public class SysDeptService {
             return Integer.valueOf(NODE_PATH_SEP, 1);
         }
     }
+
+//    public static void main(String[] args) {
+//        String children = "_3_4_5_";
+//        String prePath = "";
+//        String path = "_1_2_";
+//        int i = Math.max(prePath.length() - 1, 0);
+//        int j = path.length() == 0 ? 0 : path.length() - 1;
+//        children = path.substring(0, j) + children.substring(i);
+//        System.out.println("children = " + children);
+//    }
 }

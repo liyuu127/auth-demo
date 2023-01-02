@@ -28,7 +28,7 @@ public class DeptForm {
     private Integer type;
 
     /**
-     * 父级id
+     * 父级id,顶级结点为0
      */
     private Integer pid;
 

@@ -1,12 +1,13 @@
-package cn.liyu.auth.entity;
+package cn.liyu.auth.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
-public class SysMenu implements Serializable {
+public class MenuTreeVo {
     /**
      * 菜单表主键
      */
@@ -69,10 +70,6 @@ public class SysMenu implements Serializable {
      */
     private LocalDateTime updateTime;
 
-    /**
-     * 记录是否被删除：0否，1是
-     */
-    private Byte deleted;
-
-    private static final long serialVersionUID = 1L;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<MenuTreeVo> childrenList;
 }

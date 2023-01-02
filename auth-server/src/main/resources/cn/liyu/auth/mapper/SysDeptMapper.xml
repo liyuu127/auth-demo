@@ -488,28 +488,27 @@
         from sys_dept
         <where>
             and path like concat('%_', #{sptId}, '_%')
-            and deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
+                  and deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
         </where>
     </select>
 
     <select id="getSelfByUserId" resultType="cn.liyu.auth.entity.SysDept">
-        select
-        sd.id as id,
-        sd.name as name,
-        sd.type as type,
-        sd.pid as pid,
-        sd.sort as sort,
-        sd.path as path,
-        sd.create_by as createBy,
-        sd.create_time as createTime,
-        sd.update_by as updateBy,
-        sd.update_time as updateTime,
-        sd.deleted as deleted
+        select sd.id          as id,
+               sd.name        as name,
+               sd.type        as type,
+               sd.pid         as pid,
+               sd.sort        as sort,
+               sd.path        as path,
+               sd.create_by   as createBy,
+               sd.create_time as createTime,
+               sd.update_by   as updateBy,
+               sd.update_time as updateTime,
+               sd.deleted     as deleted
         from sys_dept as sd
                  left join sys_user as su on sd.id = su.dept_id
         <where>
             and su.id = #{userId}
-            and sd.deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
+                  and sd.deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
         </where>
     </select>
 
@@ -526,6 +525,17 @@
             </if>
             and sd.deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
         </where>
+    </select>
 
+    <select id="selectList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept as sd
+        <where>
+            <if test="nameL != null and nameL != ''">
+                and sd.name like concat('%', #{nameL}, '%')
+            </if>
+            and sd.deleted = ${@cn.liyu.base.constant.CommonConstant@DELETED_NO}
+        </where>
     </select>
 </mapper>

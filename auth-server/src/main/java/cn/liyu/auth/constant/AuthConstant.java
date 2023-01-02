@@ -6,5 +6,8 @@ public class AuthConstant {
      */
     public static final byte USER_ENABLE_FALSE = 0;
     public static final byte USER_ENABLE_TRUE = 1;
+
     public static final String NODE_PATH_SEP = "_";
+
+    public static final int NODE_PATH_ROOT_ID = 0;
 }

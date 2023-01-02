@@ -1,7 +1,9 @@
 package cn.liyu.auth.mapper;
 
 import cn.liyu.auth.entity.SysMenu;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 public interface SysMenuMapper {
     /**
      * insert record to table
+     *
      * @param record the record
      * @return insert count
      */
@@ -20,6 +23,7 @@ public interface SysMenuMapper {
 
     /**
      * insert record to table selective
+     *
      * @param record the record
      * @return insert count
      */
@@ -27,6 +31,7 @@ public interface SysMenuMapper {
 
     /**
      * select by primary key
+     *
      * @param id primary key
      * @return object by primary key
      */
@@ -34,6 +39,7 @@ public interface SysMenuMapper {
 
     /**
      * update record selective
+     *
      * @param record the updated record
      * @return update count
      */
@@ -41,6 +47,7 @@ public interface SysMenuMapper {
 
     /**
      * update record
+     *
      * @param record the updated record
      * @return update count
      */
@@ -52,5 +59,7 @@ public interface SysMenuMapper {
 
     int batchInsert(@Param("list") List<SysMenu> list);
 
-    List<SysMenu> getUserMenuList(Integer userId);
+    List<SysMenu> getUserMenuList(@Param("userId") Integer userId);
+
+    List<SysMenu> selectList(@Param("title") String title);
 }

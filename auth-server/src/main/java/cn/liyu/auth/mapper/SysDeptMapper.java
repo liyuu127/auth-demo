@@ -1,6 +1,7 @@
 package cn.liyu.auth.mapper;
 
 import cn.liyu.auth.entity.SysDept;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -60,7 +61,9 @@ public interface SysDeptMapper {
 
     List<SysDept> selectChildrenList(@Param("sptId") Integer sptId);
 
-    SysDept getSelfByUserId(@Param("userId")Integer userId);
+    SysDept getSelfByUserId(@Param("userId") Integer userId);
 
     List<SysDept> selectByIdList(@Param("list") List<Integer> pathNode);
+
+    List<SysDept> selectList(@Param("nameL") String nameL);
 }

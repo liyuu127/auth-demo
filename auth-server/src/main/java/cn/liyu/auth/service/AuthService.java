@@ -162,6 +162,6 @@ public class AuthService {
     }
 
     public void logout(HttpServletRequest request) {
-        redisTemplate.delete(ONLINE_TOKEN_KEY + tokenProvider.getToken(request));
+         tokenProvider.removeToken(request);
     }
 }
