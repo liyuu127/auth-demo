@@ -12,9 +12,8 @@
     <modules>
 
         <module>auth-server</module>
-        <module>auth-common</module>
-        <module>base-common</module>
         <module>biz-service</module>
+        <module>common</module>
     </modules>
 
     <name>auth-demo</name>
@@ -122,6 +121,16 @@
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-core</artifactId>
+                <version>${hutool-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-extra</artifactId>
+                <version>${hutool-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-http</artifactId>
                 <version>${hutool-core.version}</version>
             </dependency>
             <dependency>

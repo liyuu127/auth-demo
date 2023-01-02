@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.liyu.log.mapper.SysLogMapper">
+  <resultMap id="BaseResultMap" type="cn.liyu.log.entity.SysLog">
+    <!--@mbg.generated-->
+    <!--@Table sys_log-->
+    <id column="id" property="id" />
+    <result column="ip" property="ip" />
+    <result column="type" property="type" />
+    <result column="user_name" property="userName" />
+    <result column="description" property="description" />
+    <result column="action_method" property="actionMethod" />
+    <result column="action_url" property="actionUrl" />
+    <result column="params" property="params" />
+    <result column="browser" property="browser" />
+    <result column="class_path" property="classPath" />
+    <result column="request_method" property="requestMethod" />
+    <result column="start_time" property="startTime" />
+    <result column="finish_time" property="finishTime" />
+    <result column="consuming_time" property="consumingTime" />
+    <result column="ex_desc" property="exDesc" />
+    <result column="ex_detail" property="exDetail" />
+    <result column="location" property="location" />
+    <result column="os" property="os" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, ip, `type`, user_name, description, action_method, action_url, params, browser, 
+    class_path, request_method, start_time, finish_time, consuming_time, ex_desc, ex_detail, 
+    `location`, os
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_log
+    where id = #{id}
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.liyu.log.entity.SysLog" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_log (ip, `type`, user_name, description, action_method, action_url, 
+      params, browser, class_path, request_method, start_time, finish_time, 
+      consuming_time, ex_desc, ex_detail, `location`, os)
+    values (#{ip}, #{type}, #{userName}, #{description}, #{actionMethod}, #{actionUrl}, 
+      #{params}, #{browser}, #{classPath}, #{requestMethod}, #{startTime}, #{finishTime}, 
+      #{consumingTime}, #{exDesc}, #{exDetail}, #{location}, #{os})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.liyu.log.entity.SysLog" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="actionMethod != null">
+        action_method,
+      </if>
+      <if test="actionUrl != null">
+        action_url,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="browser != null">
+        browser,
+      </if>
+      <if test="classPath != null">
+        class_path,
+      </if>
+      <if test="requestMethod != null">
+        request_method,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="finishTime != null">
+        finish_time,
+      </if>
+      <if test="consumingTime != null">
+        consuming_time,
+      </if>
+      <if test="exDesc != null">
+        ex_desc,
+      </if>
+      <if test="exDetail != null">
+        ex_detail,
+      </if>
+      <if test="location != null">
+        `location`,
+      </if>
+      <if test="os != null">
+        os,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ip != null">
+        #{ip},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="userName != null">
+        #{userName},
+      </if>
+      <if test="description != null">
+        #{description},
+      </if>
+      <if test="actionMethod != null">
+        #{actionMethod},
+      </if>
+      <if test="actionUrl != null">
+        #{actionUrl},
+      </if>
+      <if test="params != null">
+        #{params},
+      </if>
+      <if test="browser != null">
+        #{browser},
+      </if>
+      <if test="classPath != null">
+        #{classPath},
+      </if>
+      <if test="requestMethod != null">
+        #{requestMethod},
+      </if>
+      <if test="startTime != null">
+        #{startTime},
+      </if>
+      <if test="finishTime != null">
+        #{finishTime},
+      </if>
+      <if test="consumingTime != null">
+        #{consumingTime},
+      </if>
+      <if test="exDesc != null">
+        #{exDesc},
+      </if>
+      <if test="exDetail != null">
+        #{exDetail},
+      </if>
+      <if test="location != null">
+        #{location},
+      </if>
+      <if test="os != null">
+        #{os},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.liyu.log.entity.SysLog">
+    <!--@mbg.generated-->
+    update sys_log
+    <set>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="type != null">
+        `type` = #{type},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName},
+      </if>
+      <if test="description != null">
+        description = #{description},
+      </if>
+      <if test="actionMethod != null">
+        action_method = #{actionMethod},
+      </if>
+      <if test="actionUrl != null">
+        action_url = #{actionUrl},
+      </if>
+      <if test="params != null">
+        params = #{params},
+      </if>
+      <if test="browser != null">
+        browser = #{browser},
+      </if>
+      <if test="classPath != null">
+        class_path = #{classPath},
+      </if>
+      <if test="requestMethod != null">
+        request_method = #{requestMethod},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime},
+      </if>
+      <if test="finishTime != null">
+        finish_time = #{finishTime},
+      </if>
+      <if test="consumingTime != null">
+        consuming_time = #{consumingTime},
+      </if>
+      <if test="exDesc != null">
+        ex_desc = #{exDesc},
+      </if>
+      <if test="exDetail != null">
+        ex_detail = #{exDetail},
+      </if>
+      <if test="location != null">
+        `location` = #{location},
+      </if>
+      <if test="os != null">
+        os = #{os},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.liyu.log.entity.SysLog">
+    <!--@mbg.generated-->
+    update sys_log
+    set ip = #{ip},
+      `type` = #{type},
+      user_name = #{userName},
+      description = #{description},
+      action_method = #{actionMethod},
+      action_url = #{actionUrl},
+      params = #{params},
+      browser = #{browser},
+      class_path = #{classPath},
+      request_method = #{requestMethod},
+      start_time = #{startTime},
+      finish_time = #{finishTime},
+      consuming_time = #{consumingTime},
+      ex_desc = #{exDesc},
+      ex_detail = #{exDetail},
+      `location` = #{location},
+      os = #{os}
+    where id = #{id}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_log
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="ip = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.ip}
+        </foreach>
+      </trim>
+      <trim prefix="`type` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.type}
+        </foreach>
+      </trim>
+      <trim prefix="user_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.userName}
+        </foreach>
+      </trim>
+      <trim prefix="description = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.description}
+        </foreach>
+      </trim>
+      <trim prefix="action_method = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.actionMethod}
+        </foreach>
+      </trim>
+      <trim prefix="action_url = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.actionUrl}
+        </foreach>
+      </trim>
+      <trim prefix="params = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.params}
+        </foreach>
+      </trim>
+      <trim prefix="browser = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.browser}
+        </foreach>
+      </trim>
+      <trim prefix="class_path = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.classPath}
+        </foreach>
+      </trim>
+      <trim prefix="request_method = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.requestMethod}
+        </foreach>
+      </trim>
+      <trim prefix="start_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.startTime}
+        </foreach>
+      </trim>
+      <trim prefix="finish_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.finishTime}
+        </foreach>
+      </trim>
+      <trim prefix="consuming_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.consumingTime}
+        </foreach>
+      </trim>
+      <trim prefix="ex_desc = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.exDesc}
+        </foreach>
+      </trim>
+      <trim prefix="ex_detail = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.exDetail}
+        </foreach>
+      </trim>
+      <trim prefix="`location` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.location}
+        </foreach>
+      </trim>
+      <trim prefix="os = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id = #{item.id} then #{item.os}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_log
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="ip = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.ip != null">
+            when id = #{item.id} then #{item.ip}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`type` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.type != null">
+            when id = #{item.id} then #{item.type}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="user_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.userName != null">
+            when id = #{item.id} then #{item.userName}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="description = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.description != null">
+            when id = #{item.id} then #{item.description}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="action_method = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.actionMethod != null">
+            when id = #{item.id} then #{item.actionMethod}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="action_url = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.actionUrl != null">
+            when id = #{item.id} then #{item.actionUrl}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="params = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.params != null">
+            when id = #{item.id} then #{item.params}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="browser = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.browser != null">
+            when id = #{item.id} then #{item.browser}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="class_path = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.classPath != null">
+            when id = #{item.id} then #{item.classPath}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="request_method = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.requestMethod != null">
+            when id = #{item.id} then #{item.requestMethod}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="start_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.startTime != null">
+            when id = #{item.id} then #{item.startTime}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="finish_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.finishTime != null">
+            when id = #{item.id} then #{item.finishTime}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="consuming_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.consumingTime != null">
+            when id = #{item.id} then #{item.consumingTime}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="ex_desc = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.exDesc != null">
+            when id = #{item.id} then #{item.exDesc}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="ex_detail = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.exDetail != null">
+            when id = #{item.id} then #{item.exDetail}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`location` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.location != null">
+            when id = #{item.id} then #{item.location}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="os = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.os != null">
+            when id = #{item.id} then #{item.os}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.id}
+    </foreach>
+  </update>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_log
+    (ip, `type`, user_name, description, action_method, action_url, params, browser, 
+      class_path, request_method, start_time, finish_time, consuming_time, ex_desc, ex_detail, 
+      `location`, os)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.ip}, #{item.type}, #{item.userName}, #{item.description}, #{item.actionMethod}, 
+        #{item.actionUrl}, #{item.params}, #{item.browser}, #{item.classPath}, #{item.requestMethod}, 
+        #{item.startTime}, #{item.finishTime}, #{item.consumingTime}, #{item.exDesc}, #{item.exDetail}, 
+        #{item.location}, #{item.os})
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdate" keyColumn="id" keyProperty="id" parameterType="cn.liyu.log.entity.SysLog" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      ip,
+      `type`,
+      user_name,
+      description,
+      action_method,
+      action_url,
+      params,
+      browser,
+      class_path,
+      request_method,
+      start_time,
+      finish_time,
+      consuming_time,
+      ex_desc,
+      ex_detail,
+      `location`,
+      os,
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      #{ip},
+      #{type},
+      #{userName},
+      #{description},
+      #{actionMethod},
+      #{actionUrl},
+      #{params},
+      #{browser},
+      #{classPath},
+      #{requestMethod},
+      #{startTime},
+      #{finishTime},
+      #{consumingTime},
+      #{exDesc},
+      #{exDetail},
+      #{location},
+      #{os},
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id},
+      </if>
+      ip = #{ip},
+      `type` = #{type},
+      user_name = #{userName},
+      description = #{description},
+      action_method = #{actionMethod},
+      action_url = #{actionUrl},
+      params = #{params},
+      browser = #{browser},
+      class_path = #{classPath},
+      request_method = #{requestMethod},
+      start_time = #{startTime},
+      finish_time = #{finishTime},
+      consuming_time = #{consumingTime},
+      ex_desc = #{exDesc},
+      ex_detail = #{exDetail},
+      `location` = #{location},
+      os = #{os},
+    </trim>
+  </insert>
+  <insert id="insertOrUpdateSelective" keyColumn="id" keyProperty="id" parameterType="cn.liyu.log.entity.SysLog" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="actionMethod != null">
+        action_method,
+      </if>
+      <if test="actionUrl != null">
+        action_url,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="browser != null">
+        browser,
+      </if>
+      <if test="classPath != null">
+        class_path,
+      </if>
+      <if test="requestMethod != null">
+        request_method,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="finishTime != null">
+        finish_time,
+      </if>
+      <if test="consumingTime != null">
+        consuming_time,
+      </if>
+      <if test="exDesc != null">
+        ex_desc,
+      </if>
+      <if test="exDetail != null">
+        ex_detail,
+      </if>
+      <if test="location != null">
+        `location`,
+      </if>
+      <if test="os != null">
+        os,
+      </if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="ip != null">
+        #{ip},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="userName != null">
+        #{userName},
+      </if>
+      <if test="description != null">
+        #{description},
+      </if>
+      <if test="actionMethod != null">
+        #{actionMethod},
+      </if>
+      <if test="actionUrl != null">
+        #{actionUrl},
+      </if>
+      <if test="params != null">
+        #{params},
+      </if>
+      <if test="browser != null">
+        #{browser},
+      </if>
+      <if test="classPath != null">
+        #{classPath},
+      </if>
+      <if test="requestMethod != null">
+        #{requestMethod},
+      </if>
+      <if test="startTime != null">
+        #{startTime},
+      </if>
+      <if test="finishTime != null">
+        #{finishTime},
+      </if>
+      <if test="consumingTime != null">
+        #{consumingTime},
+      </if>
+      <if test="exDesc != null">
+        #{exDesc},
+      </if>
+      <if test="exDetail != null">
+        #{exDetail},
+      </if>
+      <if test="location != null">
+        #{location},
+      </if>
+      <if test="os != null">
+        #{os},
+      </if>
+    </trim>
+    on duplicate key update 
+    <trim suffixOverrides=",">
+      <if test="id != null">
+        id = #{id},
+      </if>
+      <if test="ip != null">
+        ip = #{ip},
+      </if>
+      <if test="type != null">
+        `type` = #{type},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName},
+      </if>
+      <if test="description != null">
+        description = #{description},
+      </if>
+      <if test="actionMethod != null">
+        action_method = #{actionMethod},
+      </if>
+      <if test="actionUrl != null">
+        action_url = #{actionUrl},
+      </if>
+      <if test="params != null">
+        params = #{params},
+      </if>
+      <if test="browser != null">
+        browser = #{browser},
+      </if>
+      <if test="classPath != null">
+        class_path = #{classPath},
+      </if>
+      <if test="requestMethod != null">
+        request_method = #{requestMethod},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime},
+      </if>
+      <if test="finishTime != null">
+        finish_time = #{finishTime},
+      </if>
+      <if test="consumingTime != null">
+        consuming_time = #{consumingTime},
+      </if>
+      <if test="exDesc != null">
+        ex_desc = #{exDesc},
+      </if>
+      <if test="exDetail != null">
+        ex_detail = #{exDetail},
+      </if>
+      <if test="location != null">
+        `location` = #{location},
+      </if>
+      <if test="os != null">
+        os = #{os},
+      </if>
+    </trim>
+  </insert>
+</mapper>

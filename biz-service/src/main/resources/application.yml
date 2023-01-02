@@ -7,6 +7,17 @@ spring:
     name: demo-server
   main:
     allow-circular-references: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      connection-test-query: SELECT 1
+      max-lifetime: 60000
+      maximum-pool-size: 10
+      minimum-idle: 3
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://124.71.56.212:3306/auth-demo?useUnicode=true&useSSL=false&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: Abc123456
   redis:
     database: 3
     host: 124.71.56.212
@@ -19,6 +30,11 @@ spring:
     port: 6379
     timeout: 6000ms
     password: 123456
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  typeAliasesPackage: cn.liyu.auth.entity
+  configuration:
+    map-underscore-to-camel-case: true
 #jwt
 jwt:
   # 必须使用最少88位的Base64对该令牌进行编码
