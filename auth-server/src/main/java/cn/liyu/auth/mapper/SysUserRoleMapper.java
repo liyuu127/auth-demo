@@ -1,7 +1,9 @@
 package cn.liyu.auth.mapper;
 
 import cn.liyu.auth.entity.SysUserRole;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 public interface SysUserRoleMapper {
     /**
      * insert record to table
+     *
      * @param record the record
      * @return insert count
      */
@@ -20,6 +23,7 @@ public interface SysUserRoleMapper {
 
     /**
      * insert record to table selective
+     *
      * @param record the record
      * @return insert count
      */
@@ -27,6 +31,7 @@ public interface SysUserRoleMapper {
 
     /**
      * select by primary key
+     *
      * @param id primary key
      * @return object by primary key
      */
@@ -34,6 +39,7 @@ public interface SysUserRoleMapper {
 
     /**
      * update record selective
+     *
      * @param record the updated record
      * @return update count
      */
@@ -41,6 +47,7 @@ public interface SysUserRoleMapper {
 
     /**
      * update record
+     *
      * @param record the updated record
      * @return update count
      */
@@ -51,4 +58,6 @@ public interface SysUserRoleMapper {
     int updateBatchSelective(List<SysUserRole> list);
 
     int batchInsert(@Param("list") List<SysUserRole> list);
+
+    void deleteByUserId(@Param("userId") Integer userId);
 }

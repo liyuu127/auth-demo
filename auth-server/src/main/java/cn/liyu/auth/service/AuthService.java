@@ -85,7 +85,6 @@ public class AuthService {
         final JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
 
         //保存到在线用户中
-//        redisTemplate.opsForValue().set(ONLINE_TOKEN_KEY + uuid, token, properties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
         redisTemplate.opsForValue().set(ONLINE_USER_KEY + token, JSON.toJSONString(jwtUser),
                 securityProperties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
 

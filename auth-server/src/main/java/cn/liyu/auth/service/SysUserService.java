@@ -60,17 +60,21 @@ public class SysUserService {
         List<Integer> roleIdList = userForm.getRoleIdList();
         if (roleIdList != null && !roleIdList.isEmpty()) {
             Integer userId = sysUser.getId();
-            List<SysUserRole> userRoles = roleIdList.stream()
-                    .map(roleId -> {
-                        SysUserRole ur = new SysUserRole();
-                        ur.setUserId(userId);
-                        ur.setRoleId(roleId);
-                        return ur;
-                    }).collect(Collectors.toList());
-
-            userRoleMapper.batchInsert(userRoles);
+            bathInsertUserRole(roleIdList, userId);
         }
 
+    }
+
+    private void bathInsertUserRole(List<Integer> roleIdList, Integer userId) {
+        List<SysUserRole> userRoles = roleIdList.stream()
+                .map(roleId -> {
+                    SysUserRole ur = new SysUserRole();
+                    ur.setUserId(userId);
+                    ur.setRoleId(roleId);
+                    return ur;
+                }).collect(Collectors.toList());
+
+        userRoleMapper.batchInsert(userRoles);
     }
 
 
@@ -94,7 +98,18 @@ public class SysUserService {
         }
     }
 
+    @Transactional
     public void updateUser(UserForm userForm) {
+
+        SysUser sysUser = UserConvert.INSTANCE.userFormToEntity(userForm);
+        sysUser.setUpdateBy(SecurityUtils.getCurrentUsername());
+        sysUser.setUpdateTime(LocalDateTime.now());
+        userMapper.updateByPrimaryKeySelective(sysUser);
+
+        if (userForm.getRoleIdList() != null && userForm.getRoleIdList().isEmpty()) {
+            userRoleMapper.deleteByUserId(userForm.getId());
+            bathInsertUserRole(userForm.getRoleIdList(), userForm.getId());
+        }
 
     }
 }

@@ -21,7 +21,7 @@
 
         <dependency>
             <groupId>cn.liyu</groupId>
-            <artifactId>common-auth</artifactId>
+            <artifactId>common-log</artifactId>
             <version>1.0.0</version>
         </dependency>
 

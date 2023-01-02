@@ -16,6 +16,7 @@ public enum AuthStubInfo implements RetStub {
     DEPT_PID_NOT_FOUND(10_009, "dept parent not found"),
     DEPT_NOT_FOUND(10_010, "dept not found"),
     PARENT_NODE_NOT_FOUND(10_011, "parent node not found"),
+    MENU_NOT_FOUND(10_012, "menu not found"),
 
 
     ;

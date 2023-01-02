@@ -28,4 +28,38 @@ public class NodeUtils {
         }
         return list;
     }
+
+    /**
+     * 修改子节点路径
+     *
+     * @param path    当前父节点路径
+     * @param prePath 之前父节点路径
+     * @param cPath   当前子节点path
+     * @return
+     */
+    public static String getChildrenPath(String path, String prePath, String cPath) {
+        String children = cPath;
+        int i = Math.max(prePath.length() - 1, 0);
+        int j = path.length() == 0 ? 0 : path.length() - 1;
+        children = path.substring(0, j) + children.substring(i);
+        return children;
+    }
+
+
+    /**
+     * 拼接当前节点和当前节点的path
+     *
+     * @param parentPath 父节点path
+     * @param parentId   父节点id
+     * @return
+     */
+    public static String getPathFromParent(String parentPath, Integer parentId) {
+        String path;
+        if (parentPath.endsWith(NODE_PATH_SEP)) {
+            path = parentPath + parentId + NODE_PATH_SEP;
+        } else {
+            path = NODE_PATH_SEP + parentId + NODE_PATH_SEP;
+        }
+        return path;
+    }
 }

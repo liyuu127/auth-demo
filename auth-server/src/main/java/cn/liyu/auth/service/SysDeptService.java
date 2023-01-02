@@ -217,7 +217,7 @@ public class SysDeptService {
         } else {
             //获取新节点的前缀
             SysDept deptParent = getSysDept(deptForm.getPid());
-            path = getPathFromParent(deptParent.getPath(), deptParent.getId());
+            path = NodeUtils.getPathFromParent(deptParent.getPath(), deptParent.getId());
         }
         //之前父级前缀
         String prePath = "";
@@ -232,30 +232,18 @@ public class SysDeptService {
         if (!childrenList.isEmpty()) {
             for (SysDept c : childrenList) {
                 //除去旧的前缀
-                String children = c.getPath();
-                int i = Math.max(prePath.length() - 1, 0);
-                int j = path.length() == 0 ? 0 : path.length() - 1;
-                children = path.substring(0, j) + children.substring(i);
+                String children = NodeUtils.getChildrenPath(path, prePath, c.getPath());
                 c.setPath(children);
             }
         }
         if (!childrenList.isEmpty()) {
             childrenList.add(dept);
             deptMapper.updateBatchSelective(childrenList);
-        }else {
+        } else {
             deptMapper.updateByPrimaryKeySelective(dept);
         }
     }
 
-    private String getPathFromParent(String deptParentPath, Integer deptParentId) {
-        String path;
-        if (deptParentPath.endsWith(NODE_PATH_SEP)) {
-            path = deptParentPath + deptParentId + NODE_PATH_SEP;
-        } else {
-            path = NODE_PATH_SEP + deptParentId + NODE_PATH_SEP;
-        }
-        return path;
-    }
 
     public void deleteDept(DeptForm deptForm) {
         //todo 有子节点 不能删除

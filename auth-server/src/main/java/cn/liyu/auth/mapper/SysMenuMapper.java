@@ -62,4 +62,6 @@ public interface SysMenuMapper {
     List<SysMenu> getUserMenuList(@Param("userId") Integer userId);
 
     List<SysMenu> selectList(@Param("title") String title);
+
+    List<SysMenu> selectChildrenList(@Param("id") Integer id);
 }

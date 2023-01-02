@@ -11,7 +11,7 @@
  Target Server Version : 80031
  File Encoding         : 65001
 
- Date: 02/01/2023 15:09:40
+ Date: 02/01/2023 20:52:33
 */
 
 SET NAMES utf8mb4;
@@ -39,6 +39,38 @@ CREATE TABLE `sys_dept`  (
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_log`;
+CREATE TABLE `sys_log`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '操作IP',
+  `type` int NULL DEFAULT NULL COMMENT '操作类型 1 操作记录2异常记录',
+  `user_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '操作人',
+  `description` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '操作描述',
+  `action_method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '请求方法',
+  `action_url` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `params` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '请求参数',
+  `browser` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '浏览器',
+  `class_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '类路径',
+  `request_method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '请求方法',
+  `start_time` timestamp NULL DEFAULT NULL COMMENT '开始时间',
+  `finish_time` timestamp NULL DEFAULT NULL COMMENT '完成时间',
+  `consuming_time` bigint NULL DEFAULT NULL COMMENT '消耗时间',
+  `ex_desc` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '异常详情信息',
+  `ex_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL COMMENT '异常描述',
+  `location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '操作地点',
+  `os` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '操作系统',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `index_type`(`type`) USING BTREE COMMENT '日志类型'
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_log
+-- ----------------------------
+INSERT INTO `sys_log` VALUES (1, '0:0:0:0:0:0:0:1', 1, 'liyu', '测试用户权限', 'getUser', '/user', '[]', 'Unknown', 'cn.liyu.biz.web.DemoController', 'GET', '2023-01-02 17:14:48', '2023-01-02 17:14:48', 46, NULL, '{\"authorities\":[],\"dataScopes\":[],\"roles\":[],\"user\":{\"createTime\":\"2023-01-01T23:56:56\",\"deptId\":1,\"enabled\":1,\"gender\":1,\"id\":3,\"nickName\":\"liyuu\",\"password\":\"$2a$10$tVezPvz88mlackYm3tueQujKrAQs5pu1Gz6I8m80.fyL0.Iyfftzu\",\"phone\":\"15626250969\",\"username\":\"liyu\"}}', '0|0|0|内网IP|内网IP', 'Unknown');
 
 -- ----------------------------
 -- Table structure for sys_menu
