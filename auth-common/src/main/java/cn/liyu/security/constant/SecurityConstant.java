@@ -11,6 +11,10 @@ public class SecurityConstant {
     public final static String ONLINE_TOKEN_KEY = "online:token:";
     public final static String ONLINE_USER_KEY = "online:user:";
     /**
+     * 在线的用户的token，用于查询在线用户下的生效token
+     */
+    public final static String ONLINE_USER_TOKEN_KEY = "online:user:token:";
+    /**
      * 验证码 key
      */
     public final static String CODE_KEY = "code-key-";

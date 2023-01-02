@@ -2,8 +2,11 @@ package cn.liyu.security.security;
 
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.IdUtil;
 import cn.liyu.security.config.SecurityProperties;
+import cn.liyu.security.model.JwtUser;
+import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -23,9 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 import static cn.liyu.security.constant.SecurityConstant.*;
 
-/**
- * @author /
- */
+
 @Slf4j
 @Component
 public class TokenProvider implements InitializingBean {
@@ -68,6 +69,10 @@ public class TokenProvider implements InitializingBean {
                 .compact();
     }
 
+    public String createUUIDToken(Authentication authentication) {
+        return UUID.randomUUID().toString();
+    }
+
     /**
      * 依据Token 获取鉴权信息
      *
@@ -91,15 +96,19 @@ public class TokenProvider implements InitializingBean {
      */
     public void checkRenewal(String token) {
         // 判断是否续期token,计算token的过期时间
-        Long expire = stringRedisTemplate.getExpire(ONLINE_TOKEN_KEY + token, TimeUnit.MILLISECONDS);
+        Long expire = stringRedisTemplate.getExpire(ONLINE_USER_KEY + token, TimeUnit.MILLISECONDS);
         Date expireDate = DateUtil.offset(new Date(), DateField.MILLISECOND, expire.intValue());
         // 判断当前时间与过期时间的时间差
         long differ = expireDate.getTime() - System.currentTimeMillis();
         // 如果在续期检查的范围内，则续期
         if (differ <= properties.getDetect()) {
             long renew = expire + properties.getRenew();
-            stringRedisTemplate.expire(ONLINE_TOKEN_KEY + token, renew, TimeUnit.MILLISECONDS);
-            stringRedisTemplate.expire(ONLINE_USER_KEY + token, renew, TimeUnit.MILLISECONDS);
+            String s = stringRedisTemplate.opsForValue().get(ONLINE_USER_KEY + token);
+            if (s != null) {
+                JwtUser jwtUser = JSON.parseObject(s, JwtUser.class);
+                stringRedisTemplate.expire(ONLINE_USER_TOKEN_KEY + jwtUser.getUsername() + ":" + token, renew, TimeUnit.MILLISECONDS);
+                stringRedisTemplate.expire(ONLINE_USER_KEY + token, renew, TimeUnit.MILLISECONDS);
+            }
         }
     }
 

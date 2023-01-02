@@ -1,20 +1,22 @@
 package cn.liyu.auth.service;
 
-import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.IdUtil;
-import cn.liyu.auth.constant.LoginCodeEnum;
 import cn.liyu.auth.config.LoginCodeProperties;
+import cn.liyu.auth.constant.LoginCodeEnum;
 import cn.liyu.auth.mapper.SysUserMapper;
 import cn.liyu.auth.model.form.AuthUserForm;
 import cn.liyu.auth.model.vo.CaptchaVo;
 import cn.liyu.auth.model.vo.LoginVo;
 import cn.liyu.auth.utils.CaptchaUtil;
+import cn.liyu.auth.utils.NetUtils;
 import cn.liyu.security.config.SecurityProperties;
 import cn.liyu.security.model.JwtUser;
+import cn.liyu.security.model.OnlineUser;
 import cn.liyu.security.security.TokenProvider;
 import com.alibaba.fastjson.JSON;
 import com.wf.captcha.base.Captcha;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +26,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static cn.liyu.security.constant.SecurityConstant.*;
 
@@ -42,7 +50,7 @@ public class AuthService {
     @Autowired
     private LoginCodeProperties loginCodeProperties;
     @Autowired
-    private SecurityProperties properties;
+    private SecurityProperties securityProperties;
 
     /**
      * 登录
@@ -72,18 +80,62 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(userForm.getUsername(), password);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = tokenProvider.createToken(authentication);
+//        String token = tokenProvider.createToken(authentication);
+        String token = tokenProvider.createUUIDToken(authentication);
         final JwtUser jwtUser = (JwtUser) authentication.getPrincipal();
 
         //保存到在线用户中
-        String uuid = UUID.randomUUID().toString();
-        redisTemplate.opsForValue().set(ONLINE_TOKEN_KEY + uuid, token, properties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
-        redisTemplate.opsForValue().set(ONLINE_USER_KEY + uuid, JSON.toJSONString(jwtUser), properties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
+//        redisTemplate.opsForValue().set(ONLINE_TOKEN_KEY + uuid, token, properties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(ONLINE_USER_KEY + token, JSON.toJSONString(jwtUser),
+                securityProperties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
+
+        //设置在线用户
+        setOnlineUser(token, jwtUser);
+        //检测是否需要踢人
+        freshOnlineCount(jwtUser);
 
         LoginVo loginVo = new LoginVo();
         loginVo.setJwtUser(jwtUser);
         loginVo.setToken(token);
         return loginVo;
+    }
+
+    private void freshOnlineCount(JwtUser jwtUser) {
+        if (securityProperties.getOnlineCount() < 1) {
+            log.error("securityProperties onlineCount={}config error", securityProperties.getOnlineCount());
+        } else {
+            Long onlineCount = securityProperties.getOnlineCount();
+            Set<String> keys = redisTemplate.keys(ONLINE_USER_TOKEN_KEY + jwtUser.getUser().getUsername() + ":" + "*");
+            if (onlineCount >= keys.size()) {
+                return;
+            }
+            List<OnlineUser> onlineUsers = keys.stream()
+                    .map(key -> redisTemplate.opsForValue().get(key))
+                    .filter(Objects::nonNull)
+                    .filter(StringUtils::isNotBlank)
+                    .map(s -> JSON.parseObject(s, OnlineUser.class))
+                    .sorted(Comparator.comparing(OnlineUser::getLoginTime))
+                    .collect(Collectors.toList());
+
+            int kickOutUser = (int) (onlineUsers.size() - onlineCount);
+            for (int i = 0; i < kickOutUser; i++) {
+                OnlineUser onlineUser = onlineUsers.get(i);
+                //删除在线用户
+                redisTemplate.delete(ONLINE_USER_TOKEN_KEY + jwtUser.getUser().getUsername() + ":" + onlineUser.getKey());
+                //删除token
+                redisTemplate.delete(ONLINE_USER_KEY + onlineUser.getKey());
+            }
+        }
+    }
+
+    private void setOnlineUser(String token, JwtUser jwtUser) {
+        OnlineUser onlineUser = new OnlineUser();
+        onlineUser.setUserName(jwtUser.getUser().getUsername());
+        onlineUser.setUserId(jwtUser.getUser().getId());
+        onlineUser.setLoginTime(LocalDateTime.now());
+        onlineUser.setIp(NetUtils.getIp(null));
+        onlineUser.setKey(token);
+        redisTemplate.opsForValue().set(ONLINE_USER_TOKEN_KEY + onlineUser.getUserName() + ":" + token, JSON.toJSONString(onlineUser), securityProperties.getTokenValidityInSeconds(), TimeUnit.MILLISECONDS);
     }
 
     /**

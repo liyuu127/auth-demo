@@ -76,7 +76,7 @@ jwt:
   detect: 1800000
   # 续期时间范围，默认1小时，单位毫秒
   renew: 3600000
-
+  online-count: 1
 log:
   path: ../log
   moduleName: ${spring.application.name}

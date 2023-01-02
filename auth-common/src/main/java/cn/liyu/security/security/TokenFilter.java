@@ -1,7 +1,6 @@
 package cn.liyu.security.security;
 
 import cn.liyu.security.model.JwtUser;
-import cn.liyu.security.model.OnlineUser;
 import com.alibaba.fastjson.JSON;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.commons.lang3.StringUtils;
@@ -9,20 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 
 import static cn.liyu.security.constant.SecurityConstant.*;
 
@@ -49,25 +43,25 @@ public class TokenFilter extends OncePerRequestFilter {
         // 对于 Token 为空的不需要去查 Redis
         if (StringUtils.isNotBlank(token)) {
             JwtUser jwtUser = null;
-            String jwt = null;
+//            String jwt = null;
             try {
-                jwt = stringRedisTemplate.opsForValue().get(ONLINE_TOKEN_KEY + token);
+//                jwt = stringRedisTemplate.opsForValue().get(ONLINE_TOKEN_KEY + token);
                 String s = stringRedisTemplate.opsForValue().get(ONLINE_USER_KEY + token);
                 if (StringUtils.isNotBlank(s)) {
                     jwtUser = JSON.parseObject(s, JwtUser.class);
                 }
             } catch (ExpiredJwtException e) {
                 log.error(e.getMessage());
-                stringRedisTemplate.delete(ONLINE_TOKEN_KEY + token);
+//                stringRedisTemplate.delete(ONLINE_TOKEN_KEY + token);
                 stringRedisTemplate.delete(ONLINE_USER_KEY + token);
             }
 
-            if (jwtUser != null && jwt != null) {
+            if (jwtUser != null) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(jwtUser, null, jwtUser.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 // Token 续期
-                tokenProvider.checkRenewal(jwt);
+                tokenProvider.checkRenewal(token);
             }
         }
         chain.doFilter(request, response);
